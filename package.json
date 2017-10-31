@@ -1,0 +1,29 @@
+{
+  "name": "new_base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "source.js",
+  "dependencies": {
+    "color": "^2.0.0",
+    "js-yaml": "^3.10.0",
+    "mustache": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "flow-bin": "^0.57.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "flow": "flow",
+    "lint": "./node_modules/.bin/eslint src/",
+    "lint_fix": "./node_modules/.bin/eslint --fix src/",
+    "color": "node src/start.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
