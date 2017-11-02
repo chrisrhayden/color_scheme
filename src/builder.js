@@ -12,6 +12,12 @@ const sendToMustache = (destinationPath, templatePath, view, colorName) => {
   // if ether config file or the color scheme file do not exists trow an error
   if (!fs.existsSync(templateFile)) utils.throwError('no default.mustache file')
   if (!configYaml.default.extension) utils.throwError('no config.yaml file')
+  const extension = configYaml.default.extension
+
+  // set a prefix if there are any
+  let prefix
+  if (configYaml.default.prefix) prefix = configYaml.default.prefix
+  else prefix = ''
 
   if (!fs.existsSync(destinationPath)) {
     fs.mkdirSync(destinationPath)
@@ -31,7 +37,7 @@ const sendToMustache = (destinationPath, templatePath, view, colorName) => {
 
   // add extension from configFile to whole destination path
   const outputFile = path
-    .resolve(destinationPathPlus, colorName + configYaml.default.extension)
+    .resolve(destinationPathPlus, prefix + colorName + extension)
 
   // finally write the rendered mustache file to outputFile
   fs.writeFileSync(outputFile, mustacheOutStr)
