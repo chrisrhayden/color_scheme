@@ -63,7 +63,9 @@ const getSchemes = (schemeName) => {
     schemeFile = path.resolve(base, 'schemes', `${schemeName}.yaml`)
     console.log(`makeing scheme ${schemeName}`)
   } else {
-    utils.throwError(`error: no ${schemeName} or color .yaml file`)
+    utils.throwError(`error: no ${schemeName}.yaml file \n ${
+      path.resolve(base, 'schemes', schemeName + '.yaml')
+    }`)
   }
 
   // return the file object
