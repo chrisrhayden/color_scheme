@@ -20,11 +20,16 @@ const cliArgs = () => {
 /** FIXME: still jankey
  * loop over templates directory
  * adding config and template files to obj */
-const getTemplates = (base) => {
+const getTemplates = (colorScheme, base) => {
+  /* if a default template in base color scheme dir
+   * return buld obj paths as just base else
+   * loop over templates dir building those paths
+   * in to the build obj */
   if (fs.existsSync(path.resolve(base, 'default.mustache'))) {
+    // idk what to name template
     return {
-      templatesArray: [path.resolve(base, 'default.mustache')],
-      config: path.resolve(base, 'config.yaml')
+      template: path.resolve(base, 'default.mustache'),
+      template_config: path.resolve(base, 'config.yaml')
     }
   } else if (fs.existsSync(path.resolve(base, 'templates'))) {
     const templatesDir = path.resolve(base, 'templates')
@@ -36,7 +41,9 @@ const getTemplates = (base) => {
      * in base/templates to templates2Obj */
     templatesArray.forEach((templatesName) => {
       templates2Obj[`${templatesName}`] = path
-        .resolve(templatesDir, templatesName, 'templates')
+        .resolve(templatesDir, templatesName, 'templates', 'default.mustache')
+      templates2Obj[`${templatesName}_config`] = path
+        .resolve(templatesDir, templatesName, 'templates', 'config.yaml')
     })
 
     console.log(templates2Obj)
@@ -46,8 +53,7 @@ const getTemplates = (base) => {
 
 // if prohect folder is not as expected trow error
 const getSchemes = (schemeName) => {
-  const cwd = process.cwd()
-  const base = path.resolve(cwd, schemeName)
+  const base = path.resolve(process.cwd(), schemeName)
   let schemeFile
 
   // check the root source dir
@@ -59,8 +65,8 @@ const getSchemes = (schemeName) => {
    * whether its named or just called color.yaml */
 
   // if a yaml file call the name given on the cli
-  if (fs.existsSync(path.resolve(base, 'schemes', `${schemeName}.yaml`))) {
-    schemeFile = path.resolve(base, 'schemes', `${schemeName}.yaml`)
+  if (fs.existsSync(path.resolve(base, `${schemeName}.yaml`))) {
+    schemeFile = path.resolve(base, `${schemeName}.yaml`)
     console.log(`makeing scheme ${schemeName}`)
   } else {
     utils.throwError(`error: no ${schemeName}.yaml file \n ${
@@ -92,7 +98,7 @@ const start = () => {
 
   /* get an obj of templates,
    * template: path template, config: path */
-  const templatesObj = getTemplates(base)
+  const templatesObj = getTemplates(colorScheme, base)
   // makeEnv makes and/or clears the necessary dirs
   const outputDestination = env.makeEnv(base)
 

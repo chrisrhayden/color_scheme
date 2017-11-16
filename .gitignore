@@ -79,5 +79,6 @@ other_colors
 misc
 apprentice/
 sourcery/
+old_files
 
 # End of https://www.gitignore.io/api/linux,node
